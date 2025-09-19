@@ -12,8 +12,7 @@ const SidebarLinks: QuartzComponent = () => {
       <div class="sidebar-links__content">
         <section class="sidebar-links__about">
           <p>
-            Freelance photographer &
-            <br />creative technician.
+            Freelance photographer & creative technician.
           </p>
           <p>Based in New York City.</p>
           <p>
@@ -26,7 +25,7 @@ const SidebarLinks: QuartzComponent = () => {
           {links.map(({ label, href }) => (
             <li>
               <a href={href} target="_blank" rel="noopener noreferrer">
-                {label} →
+                ← {label}
               </a>
             </li>
           ))}
