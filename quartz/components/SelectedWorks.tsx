@@ -11,9 +11,9 @@ const SidebarLinks: QuartzComponent = () => {
     <nav class="sidebar-links">
       <div class="sidebar-links__content">
         <section class="sidebar-links__about">
-          <p class="sidebar-links__line">
+          <p>
             Freelance photographer &
-            <span>creative technician.</span>
+            <br />creative technician.
           </p>
           <p>Based in New York City.</p>
           <p>
@@ -33,6 +33,7 @@ const SidebarLinks: QuartzComponent = () => {
         </ul>
         <hr class="sidebar-links__divider" />
         <div class="sidebar-links__note">
+          <p>All images © Scott Hoffmann.</p>
           <p>
             Built with{" "}
             <a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer">
@@ -48,7 +49,6 @@ const SidebarLinks: QuartzComponent = () => {
             </a>
             .
           </p>
-          <p>All images © Scott Hoffmann.</p>
         </div>
       </div>
     </nav>
