@@ -19,7 +19,7 @@
   }
 
   &:hover {
-    cursor: pointer;
+    cursor: var(--cursor-pointer);
     border-color: var(--secondary);
   }
 
@@ -108,7 +108,7 @@ pre {
         background: var(--light);
         color: var(--dark);
         border-radius: 4px;
-        cursor: pointer;
+        cursor: var(--cursor-pointer);
         font-size: 16px;
         font-family: var(--bodyFont);
         transition: all 0.2s ease;

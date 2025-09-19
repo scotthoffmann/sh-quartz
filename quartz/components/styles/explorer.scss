@@ -95,7 +95,7 @@ button.desktop-explorer {
   background-color: transparent;
   border: none;
   text-align: left;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   padding: 0;
   color: var(--dark);
   display: flex;
@@ -174,7 +174,7 @@ button.desktop-explorer {
     background-color: transparent;
     border: none;
     text-align: left;
-    cursor: pointer;
+    cursor: var(--cursor-pointer);
     padding-left: 0;
     padding-right: 0;
     display: flex;
@@ -196,7 +196,7 @@ button.desktop-explorer {
 .folder-icon {
   margin-right: 5px;
   color: var(--secondary);
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   transition: transform 0.3s ease;
   backface-visibility: visible;
   flex-shrink: 0;

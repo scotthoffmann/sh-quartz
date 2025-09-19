@@ -19,7 +19,7 @@
   }
 
   &:hover {
-    cursor: pointer;
+    cursor: var(--cursor-pointer);
     border-color: var(--secondary);
   }
 

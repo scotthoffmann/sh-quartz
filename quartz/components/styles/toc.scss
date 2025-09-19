@@ -15,7 +15,7 @@ button.toc-header {
   background-color: transparent;
   border: none;
   text-align: left;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   padding: 0;
   color: var(--dark);
   display: flex;

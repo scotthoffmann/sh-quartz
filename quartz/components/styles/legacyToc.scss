@@ -1,6 +1,6 @@
 details.toc {
   & summary {
-    cursor: pointer;
+    cursor: var(--cursor-pointer);
 
     &::marker {
       color: var(--dark);

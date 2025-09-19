@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     text-align: inherit;
-    cursor: pointer;
+    cursor: var(--cursor-pointer);
     white-space: nowrap;
     width: 100%;
 
@@ -28,7 +28,7 @@
     }
 
     & svg {
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       width: 18px;
       min-width: 18px;
       margin: 0 0.5rem;
@@ -178,7 +178,7 @@
           & .result-card {
             overflow: hidden;
             padding: 1em;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             transition: background 0.2s ease;
             border-bottom: 1px solid var(--lightgray);
             width: 100%;

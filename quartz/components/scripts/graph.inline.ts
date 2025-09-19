@@ -396,7 +396,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
       label: nodeId,
       eventMode: "static",
       hitArea: new Circle(0, 0, nodeRadius(n)),
-      cursor: "pointer",
+      cursor: "var(--cursor-pointer)",
     })
       .circle(0, 0, nodeRadius(n))
       .fill({ color: isTagNode ? computedStyleMap["--light"] : color(n) })

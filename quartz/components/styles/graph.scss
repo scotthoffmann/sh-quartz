@@ -16,7 +16,7 @@
     overflow: hidden;
 
     & > .global-graph-icon {
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       background: none;
       border: none;
       color: var(--dark);
@@ -31,7 +31,7 @@
       border-radius: 4px;
       background-color: transparent;
       transition: background-color 0.5s ease;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       &:hover {
         background-color: var(--lightgray);
       }
