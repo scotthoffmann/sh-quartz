@@ -38,11 +38,11 @@ const SidebarLinks: QuartzComponent = () => {
             <a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer">
               Obsidian
             </a>
-            {" + "}
+            {", "}
             <a href="https://quartz.jzhao.xyz/" target="_blank" rel="noopener noreferrer">
               Quartz
             </a>
-            {". Augmented by "}
+            {", and "}
             <a href="https://openai.com/codex" target="_blank" rel="noopener noreferrer">
               Codex
             </a>

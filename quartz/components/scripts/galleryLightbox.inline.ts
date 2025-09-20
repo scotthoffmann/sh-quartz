@@ -2,6 +2,9 @@ const GALLERY_SELECTOR = ".gallery-grid figure";
 const LIGHTBOX_ID = "gallery-lightbox";
 
 let keyListenerBound = false;
+let wheelListenerBound = false;
+let figures: HTMLElement[] = [];
+let currentIndex = -1;
 
 const ensureLightbox = () => {
   let container = document.getElementById(LIGHTBOX_ID);
@@ -23,7 +26,12 @@ const ensureLightbox = () => {
   return container;
 };
 
-const openLightbox = (figure: HTMLElement) => {
+const isLightboxOpen = () => {
+  const lightbox = document.getElementById(LIGHTBOX_ID);
+  return lightbox?.classList.contains("open") ?? false;
+};
+
+const renderFigure = (figure: HTMLElement) => {
   const lightbox = ensureLightbox();
   const img = figure.querySelector<HTMLImageElement>("img");
   const caption = figure.querySelector<HTMLElement>("figcaption");
@@ -39,6 +47,16 @@ const openLightbox = (figure: HTMLElement) => {
   if (lbCaption) {
     lbCaption.innerHTML = caption?.innerHTML ?? "";
   }
+};
+
+const openLightbox = (index: number) => {
+  if (!figures.length) {
+    return;
+  }
+  const lightbox = ensureLightbox();
+  currentIndex = (index + figures.length) % figures.length;
+  const figure = figures[currentIndex];
+  renderFigure(figure);
   lightbox.classList.remove("hidden");
   lightbox.classList.add("open");
   document.body.classList.add("gallery-lightbox-open");
@@ -54,13 +72,25 @@ const closeLightbox = () => {
   document.body.classList.remove("gallery-lightbox-open");
 };
 
-const bindLightbox = () => {
-  const figures = document.querySelectorAll<HTMLElement>(GALLERY_SELECTOR);
+const moveLightbox = (delta: number) => {
   if (!figures.length) {
+    return;
+  }
+  const next = currentIndex + delta;
+  if (next < 0 || next >= figures.length) {
+    return;
+  }
+  openLightbox(next);
+};
+
+const bindLightbox = () => {
+  const figureNodes = document.querySelectorAll<HTMLElement>(GALLERY_SELECTOR);
+  if (!figureNodes.length) {
     return;
   }
 
   const lightbox = ensureLightbox();
+  figures = Array.from(figureNodes);
 
   if (!lightbox.dataset.backdropBound) {
     lightbox.addEventListener("click", (event) => {
@@ -74,18 +104,50 @@ const bindLightbox = () => {
 
   if (!keyListenerBound) {
     document.addEventListener("keydown", (event) => {
+      if (!isLightboxOpen()) {
+        return;
+      }
       if (event.key === "Escape") {
         closeLightbox();
+      } else if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === "PageDown") {
+        event.preventDefault();
+        moveLightbox(1);
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp" || event.key === "PageUp") {
+        event.preventDefault();
+        moveLightbox(-1);
       }
     });
     keyListenerBound = true;
   }
 
-  figures.forEach((figure) => {
+  if (!wheelListenerBound) {
+    lightbox.addEventListener(
+      "wheel",
+      (event) => {
+        if (!isLightboxOpen()) {
+          return;
+        }
+        event.preventDefault();
+        if (Math.abs(event.deltaY) < 30) {
+          return;
+        }
+        if (event.deltaY > 0) {
+          moveLightbox(1);
+        } else if (event.deltaY < 0) {
+          moveLightbox(-1);
+        }
+      },
+      { passive: false },
+    );
+    wheelListenerBound = true;
+  }
+
+  figures.forEach((figure, index) => {
     if (figure.dataset.lightboxBound === "true") {
       return;
     }
     figure.dataset.lightboxBound = "true";
+    figure.dataset.lightboxIndex = index.toString();
 
     const image = figure.querySelector<HTMLImageElement>("img");
     if (!image) {
@@ -97,7 +159,7 @@ const bindLightbox = () => {
     });
 
     figure.addEventListener("click", () => {
-      openLightbox(figure);
+      openLightbox(index);
     });
 
     figure.setAttribute("role", "button");
@@ -110,7 +172,7 @@ const bindLightbox = () => {
     figure.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        openLightbox(figure);
+        openLightbox(index);
       }
     });
   });
