@@ -343,6 +343,9 @@ a {
     display: flex;
     flex-direction: column;
     gap: 0.22rem;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   & img {
@@ -352,6 +355,7 @@ a {
     border: 1px solid #fffcf0;
     border-radius: 0;
     object-fit: cover;
+    touch-action: pan-y;
   }
 
   & figcaption {
