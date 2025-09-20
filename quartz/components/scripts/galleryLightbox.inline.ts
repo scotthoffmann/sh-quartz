@@ -11,7 +11,7 @@ let swipeStartY: number | null = null;
 const SWIPE_THRESHOLD = 120;
 const WHEEL_THRESHOLD = 120;
 let wheelCooldown = false;
-const TAP_THRESHOLD = 10;
+const TAP_THRESHOLD = 14;
 
 const ensureLightbox = () => {
   let container = document.getElementById(LIGHTBOX_ID);
@@ -206,6 +206,7 @@ const bindLightbox = () => {
     let touchTapStartX: number | null = null;
     let touchTapStartY: number | null = null;
     let touchTapMoved = false;
+    let ignoreNextClick = false;
 
     figure.addEventListener("touchstart", (event) => {
       const touch = event.touches[0];
@@ -225,14 +226,23 @@ const bindLightbox = () => {
     }, { passive: true });
 
     figure.addEventListener("touchend", () => {
-      if (touchTapStartX !== null && touchTapStartY !== null && !touchTapMoved) {
-        openLightbox(index);
+      if (touchTapStartX !== null && touchTapStartY !== null) {
+        if (!touchTapMoved) {
+          ignoreNextClick = true;
+          openLightbox(index);
+        } else {
+          ignoreNextClick = true;
+        }
       }
       touchTapStartX = touchTapStartY = null;
       touchTapMoved = false;
     }, { passive: true });
 
     figure.addEventListener("click", () => {
+      if (ignoreNextClick) {
+        ignoreNextClick = false;
+        return;
+      }
       openLightbox(index);
     });
 
