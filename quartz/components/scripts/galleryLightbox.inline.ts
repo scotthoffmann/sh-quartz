@@ -6,6 +6,12 @@ let wheelListenerBound = false;
 let figures: HTMLElement[] = [];
 let currentIndex = -1;
 
+let touchStartX: number | null = null;
+let touchStartY: number | null = null;
+const swipeThreshold = 80;
+const wheelThreshold = 60;
+let wheelCooldown = false;
+
 const ensureLightbox = () => {
   let container = document.getElementById(LIGHTBOX_ID);
   if (container) {
@@ -72,7 +78,6 @@ const closeLightbox = () => {
   document.body.classList.remove("gallery-lightbox-open");
 };
 
-let wheelCooldown = false;
 const moveLightbox = (delta: number) => {
   if (!figures.length) {
     return;
@@ -103,6 +108,40 @@ const bindLightbox = () => {
     lightbox.dataset.backdropBound = "true";
   }
 
+  if (!lightbox.dataset.touchBound) {
+    lightbox.addEventListener(
+      "touchstart",
+      (event) => {
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      },
+      { passive: true },
+    );
+    lightbox.addEventListener(
+      "touchend",
+      (event) => {
+        if (!isLightboxOpen() || touchStartX === null || touchStartY === null) {
+          touchStartX = touchStartY = null;
+          return;
+        }
+        const touch = event.changedTouches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+          if (deltaX < 0) {
+            moveLightbox(1);
+          } else {
+            moveLightbox(-1);
+          }
+        }
+        touchStartX = touchStartY = null;
+      },
+      { passive: true },
+    );
+    lightbox.dataset.touchBound = "true";
+  }
+
   if (!keyListenerBound) {
     document.addEventListener("keydown", (event) => {
       if (!isLightboxOpen()) {
@@ -129,7 +168,7 @@ const bindLightbox = () => {
           return;
         }
         event.preventDefault();
-        if (Math.abs(event.deltaY) < 30 || wheelCooldown) {
+        if (Math.abs(event.deltaY) < wheelThreshold || wheelCooldown) {
           return;
         }
         wheelCooldown = true;

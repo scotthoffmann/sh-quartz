@@ -2,7 +2,7 @@
 title: Scott Hoffmann
 ---
 
-<div class="gallery-heading" role="heading" aria-level="2">✱ Selected works</div>
+<div class="gallery-heading" role="heading" aria-level="2">Selected works</div>
 
 <div class="gallery-grid">
   <figure>
