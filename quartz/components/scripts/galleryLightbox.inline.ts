@@ -6,11 +6,12 @@ let wheelListenerBound = false;
 let figures: HTMLElement[] = [];
 let currentIndex = -1;
 
-let touchStartX: number | null = null;
-let touchStartY: number | null = null;
-const swipeThreshold = 80;
-const wheelThreshold = 60;
+let swipeStartX: number | null = null;
+let swipeStartY: number | null = null;
+const SWIPE_THRESHOLD = 120;
+const WHEEL_THRESHOLD = 120;
 let wheelCooldown = false;
+const TAP_THRESHOLD = 10;
 
 const ensureLightbox = () => {
   let container = document.getElementById(LIGHTBOX_ID);
@@ -113,29 +114,29 @@ const bindLightbox = () => {
       "touchstart",
       (event) => {
         const touch = event.touches[0];
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
+        swipeStartX = touch.clientX;
+        swipeStartY = touch.clientY;
       },
       { passive: true },
     );
     lightbox.addEventListener(
       "touchend",
       (event) => {
-        if (!isLightboxOpen() || touchStartX === null || touchStartY === null) {
-          touchStartX = touchStartY = null;
+        if (!isLightboxOpen() || swipeStartX === null || swipeStartY === null) {
+          swipeStartX = swipeStartY = null;
           return;
         }
         const touch = event.changedTouches[0];
-        const deltaX = touch.clientX - touchStartX;
-        const deltaY = touch.clientY - touchStartY;
-        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+        const deltaX = touch.clientX - swipeStartX;
+        const deltaY = touch.clientY - swipeStartY;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
           if (deltaX < 0) {
             moveLightbox(1);
-          } else {
+          } else if (deltaX > 0) {
             moveLightbox(-1);
           }
         }
-        touchStartX = touchStartY = null;
+        swipeStartX = swipeStartY = null;
       },
       { passive: true },
     );
@@ -168,7 +169,7 @@ const bindLightbox = () => {
           return;
         }
         event.preventDefault();
-        if (Math.abs(event.deltaY) < wheelThreshold || wheelCooldown) {
+        if (Math.abs(event.deltaY) < WHEEL_THRESHOLD || wheelCooldown) {
           return;
         }
         wheelCooldown = true;
@@ -201,6 +202,35 @@ const bindLightbox = () => {
     image.addEventListener("contextmenu", (event) => {
       event.preventDefault();
     });
+
+    let touchTapStartX: number | null = null;
+    let touchTapStartY: number | null = null;
+    let touchTapMoved = false;
+
+    figure.addEventListener("touchstart", (event) => {
+      const touch = event.touches[0];
+      touchTapStartX = touch.clientX;
+      touchTapStartY = touch.clientY;
+      touchTapMoved = false;
+    }, { passive: true });
+
+    figure.addEventListener("touchmove", (event) => {
+      if (touchTapStartX === null || touchTapStartY === null) {
+        return;
+      }
+      const touch = event.touches[0];
+      if (Math.abs(touch.clientX - touchTapStartX) > TAP_THRESHOLD || Math.abs(touch.clientY - touchTapStartY) > TAP_THRESHOLD) {
+        touchTapMoved = true;
+      }
+    }, { passive: true });
+
+    figure.addEventListener("touchend", () => {
+      if (touchTapStartX !== null && touchTapStartY !== null && !touchTapMoved) {
+        openLightbox(index);
+      }
+      touchTapStartX = touchTapStartY = null;
+      touchTapMoved = false;
+    }, { passive: true });
 
     figure.addEventListener("click", () => {
       openLightbox(index);

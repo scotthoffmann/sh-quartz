@@ -167,6 +167,9 @@ a {
 .page {
   max-width: calc(#{map.get($breakpoints, desktop)} + 300px);
   margin: 0 auto;
+  @media all and ($mobile) {
+    padding: 1.5rem 1.25rem 2rem;
+  }
   & article {
     & > h1 {
       font-size: 2rem;
@@ -436,6 +439,23 @@ a {
   &__content figcaption span {
     display: block;
   }
+}
+
+.back-to-top {
+  margin: 2.5rem 0 1.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.back-to-top a {
+  color: #ffffff;
+}
+
+.back-to-top a:hover,
+.back-to-top a:focus-visible {
+  color: #ff5f1f;
 }
 
 .gallery-lightbox-open {

@@ -104,3 +104,7 @@ title: Scott Hoffmann
     </figcaption>
   </figure>
 </div>
+
+<p class="back-to-top">
+  <a href="#">Back to top ↑</a>
+</p>
