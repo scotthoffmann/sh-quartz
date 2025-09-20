@@ -257,8 +257,7 @@ a {
       margin-right: 0;
       flex-direction: column;
       @media all and ($mobile) {
-        margin-left: inherit;
-        margin-right: inherit;
+        display: none;
       }
       @media all and not ($desktop) {
         position: initial;
@@ -317,6 +316,14 @@ a {
   }
 }
 
+
+.gallery-heading {
+  font-size: 1.6rem;
+  font-weight: $semiBoldWeight;
+  margin: 2rem 0 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

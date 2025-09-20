@@ -30,8 +30,8 @@ $mobileGrid: (
   rowGap: "5px",
   columnGap: "5px",
   templateAreas:
-    '"grid-sidebar-left"\
-      "grid-header"\
+    '"grid-header"\
+      "grid-sidebar-left"\
       "grid-center"\
       "grid-footer"',
 );
