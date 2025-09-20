@@ -72,6 +72,7 @@ const closeLightbox = () => {
   document.body.classList.remove("gallery-lightbox-open");
 };
 
+let wheelCooldown = false;
 const moveLightbox = (delta: number) => {
   if (!figures.length) {
     return;
@@ -128,14 +129,18 @@ const bindLightbox = () => {
           return;
         }
         event.preventDefault();
-        if (Math.abs(event.deltaY) < 30) {
+        if (Math.abs(event.deltaY) < 30 || wheelCooldown) {
           return;
         }
+        wheelCooldown = true;
         if (event.deltaY > 0) {
           moveLightbox(1);
         } else if (event.deltaY < 0) {
           moveLightbox(-1);
         }
+        window.setTimeout(() => {
+          wheelCooldown = false;
+        }, 250);
       },
       { passive: false },
     );
