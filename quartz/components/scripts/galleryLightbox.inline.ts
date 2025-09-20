@@ -8,8 +8,8 @@ let currentIndex = -1;
 
 let swipeStartX: number | null = null;
 let swipeStartY: number | null = null;
-const SWIPE_THRESHOLD = 120;
-const WHEEL_THRESHOLD = 120;
+const SWIPE_THRESHOLD = 160;
+const WHEEL_THRESHOLD = 180;
 let wheelCooldown = false;
 const TAP_THRESHOLD = 14;
 
@@ -220,7 +220,10 @@ const bindLightbox = () => {
         return;
       }
       const touch = event.touches[0];
-      if (Math.abs(touch.clientX - touchTapStartX) > TAP_THRESHOLD || Math.abs(touch.clientY - touchTapStartY) > TAP_THRESHOLD) {
+      if (touchTapMoved) {
+        return;
+      }
+      if (Math.abs(touch.clientX - touchTapStartX) > TAP_THRESHOLD || Math.abs(touch.clientY - touchTapStartY) > TAP_THRESHOLD / 2) {
         touchTapMoved = true;
       }
     }, { passive: true });
