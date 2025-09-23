@@ -16,6 +16,10 @@ html {
   text-size-adjust: none;
   overflow-x: hidden;
   width: 100vw;
+  /* iOS Safari scrolling optimizations */
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 body {
@@ -469,6 +473,38 @@ a {
   height: 100%;
 }
 
+/* iOS Safari scrolling optimizations for gallery */
+.gallery-grid {
+  /* Force hardware acceleration for smooth scrolling */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+.gallery-grid figure {
+  /* Prevent layout shifts during scroll */
+  contain: layout style paint;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.gallery-grid img {
+  /* Optimize image rendering for iOS Safari */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Prevent image jumping during scroll */
+  will-change: transform;
+  /* Ensure images are properly sized */
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Ensure mobile scrolling works properly */
 @media (max-width: 768px) {
   .gallery-lightbox-open {
@@ -481,6 +517,19 @@ a {
     position: fixed;
     width: 100%;
     height: 100%;
+  }
+  
+  /* Additional iOS Safari fixes for mobile */
+  .gallery-grid {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+  }
+  
+  .gallery-grid figure {
+    /* Prevent touch callouts and selection on iOS */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 }
 

@@ -102,6 +102,19 @@ const bindLightbox = () => {
 
   const lightbox = ensureLightbox();
   figures = Array.from(figureNodes);
+  
+  // Preload images for smoother scrolling on iOS Safari
+  figures.forEach((figure) => {
+    const img = figure.querySelector<HTMLImageElement>("img");
+    if (img && !img.complete) {
+      // Force image to load and prevent layout shifts
+      img.loading = "eager";
+      img.decoding = "sync";
+      // Add iOS Safari specific optimizations
+      img.style.imageRendering = "crisp-edges";
+      img.style.imageRendering = "-webkit-optimize-contrast";
+    }
+  });
 
   if (!lightbox.dataset.backdropBound) {
     lightbox.addEventListener("click", (event) => {
