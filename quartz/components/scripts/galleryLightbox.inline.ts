@@ -77,6 +77,10 @@ const closeLightbox = () => {
   lightbox.classList.remove("open");
   lightbox.classList.add("hidden");
   document.body.classList.remove("gallery-lightbox-open");
+  
+  // Ensure body scrolling is restored
+  document.body.style.overflow = "";
+  document.documentElement.style.overflow = "";
 };
 
 const moveLightbox = (delta: number) => {
@@ -265,9 +269,23 @@ const bindLightbox = () => {
   });
 };
 
+// Ensure scrolling is restored on page load/navigation
+const ensureScrollingRestored = () => {
+  if (!isLightboxOpen()) {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+    document.body.classList.remove("gallery-lightbox-open");
+  }
+};
+
 setTimeout(bindLightbox, 0);
 document.addEventListener("nav", () => {
   setTimeout(bindLightbox, 0);
+  ensureScrollingRestored();
 });
+
+// Restore scrolling on page load
+window.addEventListener("load", ensureScrollingRestored);
+window.addEventListener("beforeunload", ensureScrollingRestored);
 
 export {};
