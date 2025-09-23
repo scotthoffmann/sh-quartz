@@ -301,4 +301,38 @@ document.addEventListener("nav", () => {
 window.addEventListener("load", ensureScrollingRestored);
 window.addEventListener("beforeunload", ensureScrollingRestored);
 
+// iOS Safari specific scrolling fixes
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+if (isIOS) {
+  // Force immediate image loading and prevent layout shifts
+  const preloadImages = () => {
+    const images = document.querySelectorAll('.gallery-grid img');
+    images.forEach((img: HTMLImageElement) => {
+      if (!img.complete) {
+        // Force immediate loading
+        img.loading = 'eager';
+        img.decoding = 'sync';
+        
+        // Create a new image to force preload
+        const preloadImg = new Image();
+        preloadImg.src = img.src;
+        
+        // Set image properties to prevent jumping
+        img.style.transform = 'translateZ(0)';
+        img.style.backfaceVisibility = 'hidden';
+        img.style.willChange = 'transform';
+        img.style.imageRendering = 'crisp-edges';
+      }
+    });
+  };
+  
+  // Run immediately and on navigation
+  preloadImages();
+  document.addEventListener("nav", preloadImages);
+  
+  // Add CSS class to body for iOS-specific styles
+  document.body.classList.add('ios-device');
+}
+
 export {};

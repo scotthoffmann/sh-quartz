@@ -20,6 +20,11 @@ html {
   -webkit-overflow-scrolling: touch;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+  /* Force hardware acceleration */
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 body {
@@ -482,6 +487,11 @@ a {
   backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
+  /* Prevent iOS Safari from optimizing scrolling */
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  /* Force compositing layer */
+  isolation: isolate;
 }
 
 .gallery-grid figure {
@@ -489,6 +499,15 @@ a {
   contain: layout style paint;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+  /* Force compositing */
+  will-change: transform;
+  /* Prevent iOS Safari touch optimizations */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Force hardware acceleration */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .gallery-grid img {
@@ -503,6 +522,64 @@ a {
   max-width: 100%;
   height: auto;
   display: block;
+  /* Force immediate rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Prevent iOS Safari image optimizations */
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+/* iOS-specific fixes */
+.ios-device {
+  /* Force hardware acceleration on entire page */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.ios-device .gallery-grid {
+  /* More aggressive iOS Safari fixes */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  /* Force compositing layer */
+  isolation: isolate;
+  /* Prevent iOS Safari optimizations */
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}
+
+.ios-device .gallery-grid figure {
+  /* Force each figure into its own compositing layer */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Prevent layout shifts */
+  contain: layout style paint;
+  /* Force immediate rendering */
+  will-change: transform;
+}
+
+.ios-device .gallery-grid img {
+  /* Force immediate image rendering */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Prevent iOS Safari image optimizations */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Force compositing */
+  will-change: transform;
+  /* Prevent touch interactions that cause jumping */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: auto;
 }
 
 /* Ensure mobile scrolling works properly */
