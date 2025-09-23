@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "SCOTT HOFFMANN",
+    pageTitle: "Scott Hoffmann",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -18,37 +18,37 @@ const config: QuartzConfig = {
     locale: "en-US",
     baseUrl: "scotthoffmann.com",
     ignorePatterns: ["private", "templates", ".obsidian"],
-    defaultDateType: "modified",
+    defaultDateType: "created",
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Azeret Mono",
-        body: "Azeret Mono",
-        code: "Azeret Mono",
+        header: "Schibsted Grotesk",
+        body: "Source Sans Pro",
+        code: "IBM Plex Mono",
       },
       colors: {
         lightMode: {
-          light: "#100F0F",
-          lightgray: "#1C1B1A",
-          gray: "#343331",
-          darkgray: "#DAD8CE",
-          dark: "#FFFCF0",
-          secondary: "#DAD8CE",
-          tertiary: "#FFFCF0",
-          highlight: "rgba(255, 252, 240, 0.2)",
-          textHighlight: "rgba(218, 216, 206, 0.3)",
+          light: "#faf8f8",
+          lightgray: "#e5e5e5",
+          gray: "#b8b8b8",
+          darkgray: "#4e4e4e",
+          dark: "#2b2b2b",
+          secondary: "#284b63",
+          tertiary: "#84a59d",
+          highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "rgba(143, 159, 169, 0.15)",
         },
         darkMode: {
-          light: "#100F0F",
-          lightgray: "#1C1B1A",
-          gray: "#343331",
-          darkgray: "#DAD8CE",
-          dark: "#FFFCF0",
-          secondary: "#DAD8CE",
-          tertiary: "#FFFCF0",
-          highlight: "rgba(255, 252, 240, 0.2)",
-          textHighlight: "rgba(218, 216, 206, 0.3)",
+          light: "#161618",
+          lightgray: "#393639",
+          gray: "#646464",
+          darkgray: "#d4d4d4",
+          dark: "#ebebec",
+          secondary: "#7b97aa",
+          tertiary: "#84a59d",
+          highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "rgba(143, 159, 169, 0.15)",
         },
       },
     },
@@ -57,8 +57,9 @@ const config: QuartzConfig = {
     transformers: [
       Plugin.FrontMatter(),
       Plugin.CreatedModifiedDate({
-        priority: ["frontmatter", "git", "filesystem"],
+        priority: ["frontmatter", "filesystem"],
       }),
+      Plugin.Latex({ renderEngine: "katex" }),
       Plugin.SyntaxHighlighting({
         theme: {
           light: "github-light",
@@ -71,7 +72,6 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
@@ -86,10 +86,7 @@ const config: QuartzConfig = {
       }),
       Plugin.Assets(),
       Plugin.Static(),
-      Plugin.Favicon(),
       Plugin.NotFoundPage(),
-      // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
     ],
   },
 }

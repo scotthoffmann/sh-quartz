@@ -23,8 +23,6 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
-import SelectedWorks from "./SelectedWorks"
-import GalleryLightbox from "./GalleryLightbox"
 
 export {
   ArticleTitle,
@@ -52,6 +50,4 @@ export {
   Comments,
   Flex,
   ConditionalRender,
-  SelectedWorks,
-  GalleryLightbox,
 }
